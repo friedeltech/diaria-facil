@@ -7,6 +7,17 @@ import { useState } from "react";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    setIsMenuOpen(false); // Fechar menu mobile após clicar
+  };
+
   return (
     <header className="bg-white border-b border-b-(--primary)/20 flex w-full justify-between items-center h-16 px-4 lg:px-0">
       <div>
@@ -27,35 +38,35 @@ export default function Header() {
       </div>
 
       {/* Desktop Navigation */}
-      {/* <nav className="hidden lg:flex space-x-8">
-        <Link
-          href="/"
+      <nav className="hidden lg:flex space-x-8">
+        <button
+          onClick={() => scrollToSection("como-funciona")}
           className="text-gray-700 hover:text-(--primary) px-3 py-2 text-sm font-semibold transition-colors"
         >
           Como funciona
-        </Link>
-        <Link
-          href="/"
+        </button>
+        <button
+          onClick={() => scrollToSection("nossos-diferenciais")}
           className="text-gray-700 hover:text-(--primary) px-3 py-2 text-sm font-semibold transition-colors"
         >
           Nossos diferenciais
-        </Link>
-        <Link
-          href="/"
+        </button>
+        <button
+          onClick={() => scrollToSection("depoimentos")}
           className="text-gray-700 hover:text-(--primary) px-3 py-2 text-sm font-semibold transition-colors"
         >
           Depoimentos
-        </Link>
-        <Link
-          href="/"
+        </button>
+        <button
+          onClick={() => scrollToSection("faq")}
           className="text-gray-700 hover:text-(--primary) px-3 py-2 text-sm font-semibold transition-colors"
         >
           FAQ
-        </Link>
-      </nav> */}
+        </button>
+      </nav>
 
       {/* Desktop Buttons */}
-      {/* <div className="hidden lg:flex items-center ml-4 gap-2">
+      <div className="hidden lg:flex items-center ml-4 gap-2">
         <Link
           href="/"
           className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-colors hover:opacity-90 bg-(--primary)"
@@ -68,10 +79,10 @@ export default function Header() {
         >
           Seja um profissional
         </Link>
-      </div> */}
+      </div>
 
       {/* Mobile Menu Button */}
-      {/* <button
+      <button
         className="lg:hidden flex flex-col items-center justify-center w-8 h-8 space-y-1"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label="Toggle menu"
@@ -91,40 +102,36 @@ export default function Header() {
             isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
           }`}
         ></span>
-      </button> */}
+      </button>
 
       {/* Mobile Menu */}
-      {/* {isMenuOpen && (
+      {isMenuOpen && (
         <div className="absolute top-16 left-0 right-0 bg-white border-b border-b-(--primary)/20 shadow-lg z-50 lg:hidden">
           <nav className="flex flex-col py-4">
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+            <button
+              onClick={() => scrollToSection("como-funciona")}
+              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors text-left"
             >
               Como funciona
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+            </button>
+            <button
+              onClick={() => scrollToSection("nossos-diferenciais")}
+              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors text-left"
             >
               Nossos diferenciais
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+            </button>
+            <button
+              onClick={() => scrollToSection("depoimentos")}
+              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors text-left"
             >
               Depoimentos
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+            </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="text-gray-700 hover:text-(--primary) px-6 py-3 text-sm font-semibold transition-colors text-left"
             >
               FAQ
-            </Link>
+            </button>
             <div className="flex flex-col gap-3 px-6 pt-4 border-t border-gray-200 mt-4">
               <Link
                 href="/"
@@ -143,7 +150,7 @@ export default function Header() {
             </div>
           </nav>
         </div>
-      )} */}
+      )}
     </header>
   );
 }

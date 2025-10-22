@@ -10,10 +10,14 @@ export const metadata: Metadata = {
   title: "Diária Fácil - Sua casa limpa e organizada",
   description:
     "Conectamos você aos melhores profissionais de limpeza. Agende em minutos",
-  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.svg",
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -23,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className}`}>{children}</body>
     </html>
   );
 }
