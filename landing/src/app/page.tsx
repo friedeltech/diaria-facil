@@ -8,7 +8,7 @@ export default function Home() {
         <Header />
         <div className="py-8 px-4 lg:px-0">
           <div
-            className="bg-cover bg-center bg-no-repeat rounded-4xl p-8 lg:p-10 min-h-[240px] lg:min-h-[480px] flex flex-col justify-end relative"
+            className="bg-cover bg-center bg-no-repeat rounded-4xl p-8 lg:p-10 min-h-60 lg:min-h-[480px] flex flex-col justify-end relative"
             style={{
               backgroundImage: "url('/casa-limpa.png')",
               backgroundPosition: "center",
@@ -28,7 +28,7 @@ export default function Home() {
               {/* Botões de ação */}
               <div className="flex flex-col sm:flex-row gap-3 mt-6">
                 <Link
-                  href="/"
+                  href="/register/customer"
                   className="text-white p-4 rounded-xl text-sm font-bold transition-colors hover:opacity-90 bg-(--primary) text-center"
                 >
                   Agendar Limpeza

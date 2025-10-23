@@ -68,7 +68,7 @@ export default function Header() {
       {/* Desktop Buttons */}
       <div className="hidden lg:flex items-center ml-4 gap-2">
         <Link
-          href="/"
+          href="/register/customer"
           className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-colors hover:opacity-90 bg-(--primary)"
         >
           Agendar Limpeza

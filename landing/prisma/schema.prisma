@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DeviceType {
+  MOBILE
+  DESKTOP
+  TABLET
+}
+
+enum ServiceFrequency {
+  WEEKLY // Semanal
+  BIWEEKLY // Quinzenal
+  MONTHLY // Mensal
+  ONE_TIME // Pontual
+}
+
+enum Urgency {
+  THIS_WEEK // Esta semana
+  THIS_MONTH // Este mês
+  JUST_CHECKING // Só consultando
+}
+
+enum LeadStatus {
+  NEW // Novo (acabou de cadastrar)
+  CONTACTED // Contatado (enviamos mensagem)
+  QUALIFIED // Qualificado (respondeu, está interessado)
+  CONVERTED // Convertido (virou cliente/profissional)
+  LOST // Perdido (não converteu)
+  SPAM // Spam (lead falso)
+}
+
+// ========================================
+// MODELO: LEADS DE CLIENTES
+// ========================================
+model LeadCustomers {
+  id String @id @default(uuid())
+
+  // ===== IDENTIFICAÇÃO =====
+  fullName String @map("full_name") @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+  phone    String @db.VarChar(20)
+
+  // ===== LOCALIZAÇÃO =====
+  zipCode      String  @map("zip_code") @db.VarChar(10)
+  city         String? @db.VarChar(100)
+  state        String? @db.VarChar(2)
+  neighborhood String? @db.VarChar(100)
+
+  // ===== INTERESSE E PREFERÊNCIAS =====
+  serviceTypes     Json?             @map("service_types") // Array de tipos de serviço
+  desiredFrequency ServiceFrequency? @map("desired_frequency")
+  urgency          Urgency?
+
+  // ===== STATUS DO LEAD =====
+  status     LeadStatus @default(NEW)
+  lostReason String?    @map("lost_reason") @db.Text
+
+  // ===== COMPORTAMENTO DO USUÁRIO =====
+  deviceType      DeviceType? @map("device_type")
+  browser         String?     @db.VarChar(50)
+  operatingSystem String?     @map("operating_system") @db.VarChar(50)
+
+  // ===== DATAS E TIMESTAMPS =====
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  convertedAt    DateTime? @map("converted_at")
+  firstContactAt DateTime? @map("first_contact_at")
+  lastContactAt  DateTime? @map("last_contact_at")
+  qualifiedAt    DateTime? @map("qualified_at")
+  lostAt         DateTime? @map("lost_at")
+
+  // ===== LGPD E CONSENTIMENTO =====
+  consentedToMarketing Boolean   @default(false) @map("consented_to_marketing")
+  consentedAt          DateTime? @map("consented_at")
+  ipAddress            String?   @map("ip_address") @db.Inet
+  userAgent            String?   @map("user_agent") @db.Text
+
+  // ===== NOTAS E OBSERVAÇÕES =====
+  notes String? @db.Text
+
+  // ===== ÍNDICES =====
+  @@index([email])
+  @@index([phone])
+  @@index([zipCode])
+  @@index([status])
+  @@index([createdAt])
+  @@index([urgency])
+  @@index([city, state])
+  @@map("leads_customers")
+}
