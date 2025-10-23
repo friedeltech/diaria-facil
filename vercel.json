@@ -1,4 +1,0 @@
-{
-  "buildCommand": "cd landing && prisma generate && npm run build",
-  "installCommand": "npm install"
-}
