@@ -4,8 +4,15 @@ import { headers } from "next/headers";
 import { PrismaClient } from "../../../generated/prisma/client";
 import { LeadCustomersCreateInput } from "../../../generated/prisma/models";
 
+type SubmitLeadState = {
+  success: boolean;
+  data?: unknown;
+  existing?: boolean;
+  error?: string;
+};
+
 export async function submitLead(
-  prevState: any,
+  prevState: SubmitLeadState | null,
   leadData: LeadCustomersCreateInput
 ) {
   try {
