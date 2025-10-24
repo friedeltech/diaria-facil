@@ -1,8 +1,8 @@
 "use server";
 
+import { prisma } from "@/lib/prisma";
 import { CustomerLeadType } from "@/schemas/lead-schemas";
 import { headers } from "next/headers";
-import { PrismaClient } from "../../../generated/prisma/client";
 
 type SubmitLeadState = {
   success: boolean;
@@ -17,8 +17,6 @@ export async function submitLead(
 ) {
   try {
     console.log("✅ Recebido novo lead", leadData);
-    const prisma = new PrismaClient();
-
     const headersList = headers();
 
     leadData.ipAddress =
