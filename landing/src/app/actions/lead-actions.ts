@@ -1,8 +1,8 @@
 "use server";
 
+import { CustomerLeadType } from "@/schemas/lead-schemas";
 import { headers } from "next/headers";
 import { PrismaClient } from "../../../generated/prisma/client";
-import { LeadCustomersCreateInput } from "../../../generated/prisma/models";
 
 type SubmitLeadState = {
   success: boolean;
@@ -13,7 +13,7 @@ type SubmitLeadState = {
 
 export async function submitLead(
   prevState: SubmitLeadState | null,
-  leadData: LeadCustomersCreateInput
+  leadData: CustomerLeadType
 ) {
   try {
     console.log("✅ Recebido novo lead", leadData);
