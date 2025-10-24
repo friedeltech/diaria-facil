@@ -18,7 +18,7 @@ import {
   DeviceType,
   ServiceFrequency,
   Urgency,
-} from "../../../../generated/prisma/enums";
+} from "../../../../generated/prisma/client";
 
 const SERVICE_TYPES = [
   { id: "limpeza-completa", label: "Limpeza Completa" },
