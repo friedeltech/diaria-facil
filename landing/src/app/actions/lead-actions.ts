@@ -105,7 +105,7 @@ export async function submitProfessionalLead(
 
     console.log("🎉 Novo lead de profissional criado:", lead.email);
 
-    // Enviar e-mail de boas-vindas de forma assíncrona (fire and forget)
+    // Enviar e-mail de boas-vindas
     await sendWelcomeEmail(lead.email, lead.fullName);
 
     return { success: true, data: lead, existing: false };
