@@ -7,7 +7,7 @@ export async function sendWelcomeEmail(leadEmail: string, leadName: string) {
     const { data, error } = await resend.emails.send({
       from: "Diária Fácil <no-reply@diaria-facil.app.br>",
       to: [`${leadName} <${leadEmail}>`],
-      subject: "Bem vindo ao Diária Fácil!",
+      subject: "Bem-vindo ao Diária Fácil!",
       html: `<!DOCTYPE html>
 <html lang="pt-br">
   <head>
