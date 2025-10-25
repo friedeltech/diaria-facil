@@ -160,11 +160,7 @@ export async function sendWelcomeEmail(leadEmail: string, leadName: string) {
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <img
-          alt="Diária Fácil Logo"
-          class="logo"
-          src="https://diaria-facil.app.br/logo.png"
-        />
+        
       </div>
 
       <!-- Hero Image -->
