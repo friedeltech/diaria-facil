@@ -59,8 +59,10 @@ export async function submitLead(
     const protocol = (await headersList).get("x-forwarded-proto") || "https";
     const baseUrl = `${protocol}://${host}`;
 
+    console.log("🌐 Base URL para envio de e-mail:", baseUrl);
+
     // Enviar e-mail de boas-vindas
-    fetch(`${baseUrl}/api/send-email`, {
+    await fetch(`${baseUrl}/api/send-email`, {
       method: "POST",
       body: JSON.stringify({ leadEmail: lead.email, leadName: lead.fullName }),
       headers: {
