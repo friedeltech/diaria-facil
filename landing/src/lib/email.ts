@@ -1,29 +1,23 @@
-import { readFileSync } from "fs";
-import { join } from "path";
 import { Resend } from "resend";
+import { loadEmailTemplate, replaceTemplateVariables } from "./template-loader";
 
 export async function sendWelcomeEmail(leadEmail: string, leadName: string) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY!);
 
-    // Ler o template HTML
-    const templatePath = join(
-      process.cwd(),
-      "src",
-      "lib",
-      "email-templates",
-      "welcome.html"
-    );
-    let htmlTemplate = readFileSync(templatePath, "utf-8");
+    // Carregar o template HTML
+    const htmlTemplate = loadEmailTemplate("welcome.html");
 
-    // Substituir variáveis no template (se necessário)
-    htmlTemplate = htmlTemplate.replace(/\{\{leadName\}\}/g, leadName);
+    // Substituir variáveis no template
+    const processedTemplate = replaceTemplateVariables(htmlTemplate, {
+      leadName,
+    });
 
     const { data, error } = await resend.emails.send({
       from: "Diária Fácil <no-reply@diaria-facil.app.br>",
       to: [`${leadName} <${leadEmail}>`],
       subject: "Bem vindo ao Diária Fácil!",
-      html: htmlTemplate,
+      html: processedTemplate,
     });
 
     if (error) {
