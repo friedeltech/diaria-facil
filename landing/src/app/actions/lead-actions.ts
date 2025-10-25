@@ -3,7 +3,6 @@
 import { prisma } from "@/lib/prisma";
 import { CustomerLeadType } from "@/schemas/lead-schemas";
 import { headers } from "next/headers";
-import { Resend } from "resend";
 
 type SubmitLeadState = {
   success: boolean;
@@ -53,8 +52,24 @@ export async function submitLead(
 
     console.log("🎉 Novo lead criado:", lead.email);
 
+    const secret = process.env.NEXT_SECRET_KEY;
+
+    // Obter URL base da aplicação dinamicamente
+    const host = (await headersList).get("host");
+    const protocol = (await headersList).get("x-forwarded-proto") || "https";
+    const baseUrl = `${protocol}://${host}`;
+
     // Enviar e-mail de boas-vindas
-    sendWelcomeEmail(lead.email, lead.fullName);
+    fetch(`${baseUrl}/api/send-email`, {
+      method: "POST",
+      body: JSON.stringify({ leadEmail: lead.email, leadName: lead.fullName }),
+      headers: {
+        "Content-Type": "application/json",
+        "x-secret-key": secret || "",
+      },
+    }).catch((err) => {
+      console.error("❌ Erro ao enviar e-mail:", err);
+    }); // Fire and forget
 
     return { success: true, data: lead, existing: false };
   } catch (error) {
@@ -62,22 +77,4 @@ export async function submitLead(
 
     return { success: false, error: String(error) };
   }
-}
-
-async function sendWelcomeEmail(leadEmail: string, leadName: string) {
-  // Implementar lógica de envio de e-mail aqui
-  const resend = new Resend(process.env.RESEND_API_KEY!);
-
-  const { data, error } = await resend.emails.send({
-    from: "Diária Fácil <no-reply@diaria-facil.app.br>",
-    to: [`${leadName} <${leadEmail}>`],
-    subject: "Bem vindo ao Diária Fácil!",
-    html: `<strong>Bem vindo ao Diária Fácil ${leadName}!</strong>`,
-  });
-
-  if (error) {
-    return console.error("Erro ao enviar e-mail:", { error });
-  }
-
-  console.log("E-mail enviado com sucesso:", { data });
 }
