@@ -74,7 +74,7 @@ export default function Header() {
           Agendar Limpeza
         </Link>
         <Link
-          href="/"
+          href="/register/professional"
           className="text-(--primary) px-4 py-2 rounded-xl text-sm font-bold transition-colors hover:opacity-90 bg-(--primary)/20"
         >
           Seja um profissional
