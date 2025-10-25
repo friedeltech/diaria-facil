@@ -1,5 +1,6 @@
 "use server";
 
+import { sendWelcomeEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { CustomerLeadType } from "@/schemas/lead-schemas";
 import { headers } from "next/headers";
@@ -52,26 +53,8 @@ export async function submitLead(
 
     console.log("🎉 Novo lead criado:", lead.email);
 
-    const secret = process.env.NEXT_SECRET_KEY;
-
-    // Obter URL base da aplicação dinamicamente
-    const host = (await headersList).get("host");
-    const protocol = (await headersList).get("x-forwarded-proto") || "https";
-    const baseUrl = `${protocol}://${host}`;
-
-    console.log("🌐 Base URL para envio de e-mail:", baseUrl);
-
-    // Enviar e-mail de boas-vindas
-    await fetch(`${baseUrl}/api/send-email`, {
-      method: "POST",
-      body: JSON.stringify({ leadEmail: lead.email, leadName: lead.fullName }),
-      headers: {
-        "Content-Type": "application/json",
-        "x-secret-key": secret || "",
-      },
-    }).catch((err) => {
-      console.error("❌ Erro ao enviar e-mail:", err);
-    }); // Fire and forget
+    // Enviar e-mail de boas-vindas de forma assíncrona (fire and forget)
+    await sendWelcomeEmail(lead.email, lead.fullName);
 
     return { success: true, data: lead, existing: false };
   } catch (error) {
