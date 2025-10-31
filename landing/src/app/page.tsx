@@ -42,7 +42,7 @@ export default function Home() {
                   Agendar Limpeza
                 </Link>
                 <Link
-                  href="/"
+                  href="/register/professional"
                   className="text-black p-4 rounded-xl text-sm font-bold transition-colors hover:opacity-90 bg-white text-center"
                 >
                   Seja um profissional
